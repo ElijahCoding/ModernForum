@@ -8,13 +8,23 @@ use Illuminate\Http\Request;
 class ThreadController extends Controller
 {
     /**
+     * ThreadsController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $threads = Thread::latest()->get();
+
+        return view('threads.index', compact('threads'));
     }
 
     /**
@@ -24,7 +34,7 @@ class ThreadController extends Controller
      */
     public function create()
     {
-        //
+        return view('threads.create');
     }
 
     /**
@@ -44,9 +54,9 @@ class ThreadController extends Controller
      * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function show(Thread $thread)
+    public function show($channelId, Thread $thread)
     {
-        //
+        return view('threads.show', compact('thread'));
     }
 
     /**
