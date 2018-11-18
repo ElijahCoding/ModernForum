@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Filters\ThreadFilters;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Thread extends Model
 {
@@ -81,6 +83,18 @@ class Thread extends Model
 
         return $reply;
     }
+
+    /**
+     * Apply all relevant thread filters.
+     *
+     * @param  Builder       $query
+     * @param  ThreadFilters $filters
+     * @return Builder
+     */
+     public function scopeFilter($query, ThreadFilters $filters)
+     {
+         return $filters->apply($query);
+     }
 
     /**
      * Get the route key name.
