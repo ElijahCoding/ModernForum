@@ -29,6 +29,10 @@ class Thread extends Model
         static::created(function ($thread) {
             $thread->update(['slug' => $thread->title]);
         });
+
+        static::addGlobalScope('replyCount', function ($builder) {
+            return $builder->withCount('replies');
+        });
     }
 
     /**
