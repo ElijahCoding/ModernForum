@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Reply;
-use Illuminate\Http\Request;
 
-class FavoriteController extends Controller
+class FavoritesController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -14,7 +13,8 @@ class FavoriteController extends Controller
     {
         $this->middleware('auth');
     }
-     /**
+
+    /**
      * Store a new favorite in the database.
      *
      * @param  Reply $reply
@@ -22,6 +22,8 @@ class FavoriteController extends Controller
      */
     public function store(Reply $reply)
     {
-        return $reply->favorite();
+        $reply->favorite();
+
+        return back();
     }
 }

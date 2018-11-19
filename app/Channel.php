@@ -15,6 +15,7 @@ class Channel extends Model
     {
         return 'slug';
     }
+
     /**
      * A channel consists of threads.
      *

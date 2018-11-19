@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'avatar_path'
+        'name', 'email', 'password',
     ];
 
     /**
@@ -24,27 +24,6 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'email'
+        'password', 'remember_token',
     ];
-
-    /**
-     * Get the route key name for Laravel.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
-    {
-        return 'name';
-    }
-
-    /**
-     * Fetch all threads that were created by the user.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function threads()
-    {
-        return $this->hasMany(Thread::class)->latest();
-    }
-    
 }

@@ -3,8 +3,8 @@
 namespace App;
 
 use App\Filters\ThreadFilters;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
@@ -15,6 +15,8 @@ class Thread extends Model
      */
     protected $guarded = [];
 
+    protected $with = ['creator', 'channel'];
+
     /**
      * Boot the model.
      */
@@ -22,18 +24,10 @@ class Thread extends Model
     {
         parent::boot();
 
-        static::deleting(function ($thread) {
-            $thread->replies->each->delete();
-        });
-
-        static::created(function ($thread) {
-            $thread->update(['slug' => $thread->title]);
-        });
-
         static::addGlobalScope('replyCount', function ($builder) {
-            return $builder->withCount('replies');
+            $builder->withCount('replies');
         });
-    }
+   }
 
     /**
      * Get a string path for the thread.
@@ -42,7 +36,7 @@ class Thread extends Model
      */
     public function path()
     {
-        return "/threads/{$this->channel->slug}/{$this->slug}";
+        return "/threads/{$this->channel->slug}/{$this->id}";
     }
 
     /**
@@ -78,14 +72,11 @@ class Thread extends Model
     /**
      * Add a reply to the thread.
      *
-     * @param  array $reply
-     * @return Model
+     * @param $reply
      */
     public function addReply($reply)
     {
-        $reply = $this->replies()->create($reply);
-
-        return $reply;
+        $this->replies()->create($reply);
     }
 
     /**
@@ -95,18 +86,8 @@ class Thread extends Model
      * @param  ThreadFilters $filters
      * @return Builder
      */
-     public function scopeFilter($query, ThreadFilters $filters)
-     {
-         return $filters->apply($query);
-     }
-
-    /**
-     * Get the route key name.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
+    public function scopeFilter($query, ThreadFilters $filters)
     {
-        return 'slug';
+        return $filters->apply($query);
     }
 }
