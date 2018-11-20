@@ -12,4 +12,21 @@ class Activity extends Model
     {
         return $this->morphTo();
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public static function feed($user, $take = 50)
+    {
+        return auth()->user()
+                     ->activity()
+                     ->with(['subject'])
+                     ->take($take)
+                     ->get()
+                     ->groupBy(function($activity) {
+                        return $activity->created_at->format('Y-m-d');
+                    });
+    }
 }
