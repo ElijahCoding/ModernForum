@@ -7,6 +7,11 @@ use App\Activity;
 
 class ProfileController extends Controller
 {
+    public function __construct()
+    {
+        return $this->middleware('auth');
+    }
+    
     /**
      * Show the user's profile.
      *
