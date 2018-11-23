@@ -16,6 +16,16 @@ class Reply extends Model
     protected $guarded = [];
 
     /**
+     * Determine the path to the reply.
+     *
+     * @return string
+     */
+     public function path()
+     {
+         return $this->thread->path() . "#reply-{$this->id}";
+     }
+
+    /**
      * The relations to eager load on every query.
      *
      * @var array
