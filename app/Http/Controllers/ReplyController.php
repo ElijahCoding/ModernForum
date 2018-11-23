@@ -35,6 +35,21 @@ class ReplyController extends Controller
     }
 
     /**
+     * Update the given reply.
+     *
+     * @param  Reply $reply
+     * @return \Illuminate\Http\RedirectResponse
+     */
+     public function update(Reply $reply, Request $request)
+     {
+         $this->authorize('update', $reply);
+
+         $reply->update([
+             'body' => $request->body
+         ]);
+     }
+
+    /**
      * Delete the given reply.
      *
      * @param  Reply $reply
@@ -43,7 +58,9 @@ class ReplyController extends Controller
     public function destroy(Reply $reply)
     {
         $this->authorize('update', $reply);
-         $reply->delete();
-         return back();
+
+        $reply->delete();
+
+        return back();
     }
 }
