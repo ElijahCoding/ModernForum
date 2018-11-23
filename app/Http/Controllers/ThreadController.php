@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Thread;
 use App\Channel;
-use App\User;
 use Illuminate\Http\Request;
 use App\Filters\ThreadFilters;
 
@@ -67,18 +66,17 @@ class ThreadController extends Controller
             'body' => request('body')
         ]);
 
-        return redirect($thread->path())
-                ->with('flash', 'Your thread has been published!');
+        return redirect($thread->path());
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  integer     $channel
+     * @param  integer     $channelId
      * @param  \App\Thread $thread
      * @return \Illuminate\Http\Response
      */
-    public function show($channel, Thread $thread)
+    public function show($channelId, Thread $thread)
     {
         return view('threads.show', [
             'thread' => $thread,
@@ -86,18 +84,25 @@ class ThreadController extends Controller
         ]);
     }
 
-    public function destroy($channel, Thread $thread)
-    {
-        $this->authorize('update', $thread);
+    /**
+     * Delete the given thread.
+     *
+     * @param        $channel
+     * @param Thread $thread
+     * @return mixed
+     */
+     public function destroy($channel, Thread $thread)
+     {
+         $this->authorize('update', $thread);
 
-        $thread->delete();
+         $thread->delete();
 
-        if (request()->wantsJson()) {
-            return response([], 204);
-        }
-
-        return redirect('/threads');
-    }
+         if (request()->wantsJson()) {
+             return response([], 204);
+         }
+         
+         return redirect('/threads');
+     }
 
     /**
      * Fetch all relevant threads.

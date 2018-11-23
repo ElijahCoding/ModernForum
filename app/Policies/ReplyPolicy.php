@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\User;
+use App\Reply;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ReplyPolicy
@@ -10,12 +11,14 @@ class ReplyPolicy
     use HandlesAuthorization;
 
     /**
-     * Create a new policy instance.
+     * Determine if the authenticated user has permission to update a reply.
      *
-     * @return void
+     * @param  User  $user
+     * @param  Reply $reply
+     * @return bool
      */
-    public function __construct()
+    public function update(User $user, Reply $reply)
     {
-        //
+        return $reply->user_id == $user->id;
     }
 }

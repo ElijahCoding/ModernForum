@@ -11,7 +11,7 @@ class ProfileController extends Controller
     {
         return $this->middleware('auth');
     }
-    
+
     /**
      * Show the user's profile.
      *

@@ -6,6 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 trait Favoritable
 {
+    protected static function bootFavorable()
+    {
+        if (!auth()->check()) return;
+
+        static::deleting(function($model) {
+                $model->favorites->each(function($model) {
+                $model->delete();
+            });
+        });
+    }
     /**
      * A reply can be favorited.
      *
