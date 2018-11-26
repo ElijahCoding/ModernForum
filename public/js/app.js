@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 41);
+/******/ 	return __webpack_require__(__webpack_require__.s = 40);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -968,7 +968,7 @@ module.exports = function bind(fn, thisArg) {
 
 __webpack_require__(30);
 
-Vue.component('reply', __webpack_require__(50));
+Vue.component('reply', __webpack_require__(36));
 
 var app = new Vue({
   el: '#app'
@@ -1822,7 +1822,40 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 29 */,
+/* 29 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['attributes'],
+
+    data: function data() {
+        return {
+            editing: false,
+            body: this.attributes.body
+        };
+    },
+    mounted: function mounted() {},
+
+
+    methods: {
+        update: function update() {
+            axios.patch('/replies/' + this.attributes.id, {
+                body: this.body
+            });
+            this.editing = false;
+        },
+        destroy: function destroy() {
+            axios.delete('/replies/' + this.attributes.id);
+
+            $(this.$el).fadeOut(300, function () {});
+        }
+    }
+});
+
+/***/ }),
 /* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1845,7 +1878,7 @@ __webpack_require__(31);
  * and simple, leaving you to focus on building your next great project.
  */
 
-window.Vue = __webpack_require__(39);
+window.Vue = __webpack_require__(38);
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -31742,7 +31775,7 @@ return jQuery;
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(40)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(39)(module)))
 
 /***/ }),
 /* 34 */
@@ -32008,7 +32041,39 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 36 */,
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(37)(
+  /* script */
+  __webpack_require__(29),
+  /* template */
+  null,
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/Users/elijah/Desktop/LaravelProjects/LaravelTDD/ModernForum/resources/assets/js/components/Reply.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2fe27390", Component.options)
+  } else {
+    hotAPI.reload("data-v-2fe27390", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
 /* 37 */
 /***/ (function(module, exports) {
 
@@ -32066,8 +32131,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 38 */,
-/* 39 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43035,7 +43099,7 @@ module.exports = Vue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(2), __webpack_require__(35).setImmediate))
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -43063,82 +43127,12 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 41 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(9);
 module.exports = __webpack_require__(10);
 
-
-/***/ }),
-/* 42 */,
-/* 43 */,
-/* 44 */,
-/* 45 */,
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(37)(
-  /* script */
-  __webpack_require__(51),
-  /* template */
-  null,
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/elijah/Desktop/LaravelProjects/LaravelTDD/ModernForum/resources/assets/js/components/Reply.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2fe27390", Component.options)
-  } else {
-    hotAPI.reload("data-v-2fe27390", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 51 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['attributes'],
-
-    data: function data() {
-        return {
-            editing: false,
-            body: this.attributes.body
-        };
-    },
-    mounted: function mounted() {},
-
-
-    methods: {
-        update: function update() {
-            axios.patch('/replies/' + this.attributes.id, {
-                body: this.body
-            });
-            this.editing = false;
-        }
-    }
-});
 
 /***/ })
 /******/ ]);
