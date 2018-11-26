@@ -28,11 +28,13 @@
                     </div>
                 </div>
 
-                @foreach ($replies as $reply)
+                <replies :data="{{ $thread->replies }}"></replies>
+
+                {{-- @foreach ($replies as $reply)
                     @include ('threads.reply')
                 @endforeach
 
-                {{ $replies->links() }}
+                {{ $replies->links() }} --}}
 
                 @if (auth()->check())
                     <form method="POST" action="{{ $thread->path() . '/replies' }}">
