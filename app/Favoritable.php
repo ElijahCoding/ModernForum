@@ -6,14 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 trait Favoritable
 {
-    protected static function bootFavorable()
+    protected static function bootFavoritable()
     {
         if (!auth()->check()) return;
 
         static::deleting(function($model) {
-                $model->favorites->each(function($model) {
-                $model->delete();
-            });
+                $model->favorites->each->delete();
         });
     }
     /**
@@ -50,7 +48,7 @@ trait Favoritable
         $attributes = ['user_id' => auth()->id()];
 
         if ($this->favorites()->where($attributes)->exists()) {
-            $this->favorites()->where($attributes)->delete();
+            $this->favorites()->where($attributes)->get()->each->delete();
         }
     }
 

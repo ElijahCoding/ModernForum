@@ -4,7 +4,8 @@
             {{ $profileUser->name }} favorited a reply.
         </a>
     @endslot
-     @slot('body')
+
+    @slot('body')
         {{ $activity->subject->favorited->body }}
     @endslot
 @endcomponent
