@@ -15,6 +15,8 @@ class Reply extends Model
      */
     protected $guarded = [];
 
+    protected $appends = ['favoritesCount', 'isFavorited'];
+
     /**
      * Determine the path to the reply.
      *

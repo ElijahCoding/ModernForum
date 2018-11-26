@@ -1,4 +1,5 @@
 <script>
+    import Favorite from './Favorite'
     export default {
         props: ['attributes'],
 
@@ -7,6 +8,10 @@
                 editing: false,
                 body: this.attributes.body
             }
+        },
+
+        components: {
+            Favorite
         },
 
         mounted () {
@@ -25,7 +30,7 @@
                 axios.delete(`/replies/${this.attributes.id}`)
 
                 $(this.$el).fadeOut(300, () => {
-                    
+
                 })
             }
         }

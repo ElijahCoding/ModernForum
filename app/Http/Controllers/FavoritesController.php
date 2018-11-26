@@ -26,4 +26,15 @@ class FavoritesController extends Controller
 
         return back();
     }
+
+    /**
+     * Delete an existed favorite in the database.
+     *
+     * @param  Reply $reply
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+     public function destroy(Reply $reply)
+     {
+         $reply->unfavorite();
+     }
 }
