@@ -8,11 +8,9 @@
                     </a> said {{ data.created_at }}...
                 </h5>
 
-                <!-- @if (auth()->check())
-                    <div>
-                        <favorite :reply="{{ $reply }}"></favorite>
-                    </div>
-                @endif -->
+                <div v-if="signedIn">
+                    <favorite :reply="data"></favorite>
+                </div>
             </div>
         </div>
 
@@ -28,12 +26,10 @@
             <div v-else v-text="body"></div>
         </div>
 
-        <!-- @can ('update', $reply) -->
-            <div class="panel-footer level">
-                <button class="btn btn-xs mr-1" @click="editing = true">Edit</button>
-                <button class="btn btn-xs btn-danger mr-1" @click="destroy">Delete</button>
-            </div>
-        <!-- @endcan -->
+        <div class="panel-footer level" v-if="canUpdate">
+            <button class="btn btn-xs mr-1" @click="editing = true">Edit</button>
+            <button class="btn btn-xs btn-danger mr-1" @click="destroy">Delete</button>
+        </div>
     </div>
 </template>
 
@@ -54,8 +50,14 @@
             Favorite
         },
 
-        mounted () {
+        computed: {
+            signedIn () {
+                return window.App.signedIn
+            },
 
+            canUpdate () {
+                return this.authorize(user => this.data.user_id === user.id)
+            }
         },
 
         methods: {

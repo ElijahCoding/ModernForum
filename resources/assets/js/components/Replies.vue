@@ -24,6 +24,8 @@
 
         methods: {
             remove (index) {
+                this.$emit('removed')
+
                 this.items.splice(index, 1)
             }
         }

@@ -1826,54 +1826,26 @@ module.exports = function spread(callback) {
 /* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
-
 window._ = __webpack_require__(32);
-
-/**
- * We'll load jQuery and the Bootstrap jQuery plugin which provides support
- * for JavaScript based Bootstrap features such as modals and tabs. This
- * code may be modified to fit the specific needs of your application.
- */
 
 window.$ = window.jQuery = __webpack_require__(31);
 
 __webpack_require__(30);
 
-/**
- * Vue is a modern JavaScript library for building interactive web interfaces
- * using reactive data binding and reusable components. Vue's API is clean
- * and simple, leaving you to focus on building your next great project.
- */
-
 window.Vue = __webpack_require__(35);
 
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
+window.Vue.prototype.authorize = function (handler) {
+    var user = window.App.user;
+
+    return user ? handler(user) : false;
+};
 
 window.axios = __webpack_require__(11);
 
 window.axios.defaults.headers.common = {
-  'X-CSRF-TOKEN': window.Laravel.csrfToken,
-  'X-Requested-With': 'XMLHttpRequest'
+    'X-CSRF-TOKEN': window.App.csrfToken,
+    'X-Requested-With': 'XMLHttpRequest'
 };
-
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
-
-// import Echo from 'laravel-echo'
-
-// window.Pusher = require('pusher-js');
-
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: 'your-pusher-key'
-// });
 
 /***/ }),
 /* 30 */
@@ -43031,6 +43003,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['initialRepliesCount'],
+
+    data: function data() {
+        return {
+            repliesCount: this.initialRepliesCount
+        };
+    },
+
+
     components: {
         Replies: __WEBPACK_IMPORTED_MODULE_0__components_Replies___default.a
     }
@@ -43214,6 +43195,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         remove: function remove(index) {
+            this.$emit('removed');
+
             this.items.splice(index, 1);
         }
     }
@@ -43227,10 +43210,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Favorite__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Favorite___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Favorite__);
-//
-//
-//
-//
 //
 //
 //
@@ -43284,8 +43263,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Favorite: __WEBPACK_IMPORTED_MODULE_0__Favorite___default.a
     },
 
-    mounted: function mounted() {},
+    computed: {
+        signedIn: function signedIn() {
+            return window.App.signedIn;
+        },
+        canUpdate: function canUpdate() {
+            var _this = this;
 
+            return this.authorize(function (user) {
+                return _this.data.user_id === user.id;
+            });
+        }
+    },
 
     methods: {
         update: function update() {
@@ -43485,7 +43474,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "textContent": _vm._s(_vm.data.owner.name)
     }
-  }), _vm._v(" said " + _vm._s(_vm.data.created_at) + "...\n            ")])])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" said " + _vm._s(_vm.data.created_at) + "...\n            ")]), _vm._v(" "), (_vm.signedIn) ? _c('div', [_c('favorite', {
+    attrs: {
+      "reply": _vm.data
+    }
+  })], 1) : _vm._e()])]), _vm._v(" "), _c('div', {
     staticClass: "panel-body"
   }, [(_vm.editing) ? _c('div', [_c('div', {
     staticClass: "form-group"
@@ -43522,7 +43515,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "textContent": _vm._s(_vm.body)
     }
-  })]), _vm._v(" "), _c('div', {
+  })]), _vm._v(" "), (_vm.canUpdate) ? _c('div', {
     staticClass: "panel-footer level"
   }, [_c('button', {
     staticClass: "btn btn-xs mr-1",
@@ -43536,7 +43529,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.destroy
     }
-  }, [_vm._v("Delete")])])])
+  }, [_vm._v("Delete")])]) : _vm._e()])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
