@@ -8,7 +8,7 @@
 require('./bootstrap');
 
 Vue.component('thread-view', require('./pages/Thread.vue'));
-// Vue.component('favorite', require('./components/Favorite.vue'));
+Vue.component('paginator', require('./components/Paginator.vue'));
 
 const app = new Vue({
     el: '#app'
