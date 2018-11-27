@@ -18,6 +18,26 @@ class Reply extends Model
     protected $appends = ['favoritesCount', 'isFavorited'];
 
     /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['owner', 'favorites'];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function($reply) {
+            $reply->thread->increment('replies_count');
+        });
+
+        static::deleted(function($reply) {
+            $reply->thread->decrement('replies_count');
+        });
+    }
+
+    /**
      * Determine the path to the reply.
      *
      * @return string
@@ -26,13 +46,6 @@ class Reply extends Model
      {
          return $this->thread->path() . "#reply-{$this->id}";
      }
-
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    protected $with = ['owner', 'favorites'];
 
     /**
      * A reply has an owner.
