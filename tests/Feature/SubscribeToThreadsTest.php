@@ -10,7 +10,7 @@ class SubscribeToThreadsTest extends TestCase
     use DatabaseMigrations;
 
     /** @test */
-    public function a_user_can_subscribe_to_threads()
+    function a_user_can_subscribe_to_threads()
     {
         $this->signIn();
 
@@ -19,5 +19,20 @@ class SubscribeToThreadsTest extends TestCase
         $this->post($thread->path() . '/subscriptions');
 
         $this->assertCount(1, $thread->subscriptions);
+    }
+
+    /** @test */
+    function a_user_can_unsubscribe_to_threads()
+    {
+        $this->signIn();
+
+        $thread = create('App\Thread');
+
+        $thread->subscribe();
+
+        // dd($thread->path());
+        $this->delete($thread->path() . '/subscriptions');
+
+        $this->assertCount(0, $thread->subscriptions);
     }
 }
