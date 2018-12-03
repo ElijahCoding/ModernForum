@@ -3,8 +3,9 @@
 namespace App;
 
 use App\Filters\ThreadFilters;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use App\Notifications\ThreadWasUpdated;
+use Illuminate\Database\Eloquent\Builder;
 
 class Thread extends Model
 {
@@ -89,7 +90,15 @@ class Thread extends Model
      */
     public function addReply($reply)
     {
-        return $this->replies()->create($reply);
+        $reply = $this->replies()->create($reply);
+
+        // Prepare notifications for all subscribers
+        foreach ($this->subscriptions as $subscription) {
+            $subscription->user->notify(new ThreadWasUpdated);
+        }
+
+
+        return $reply;
     }
 
     /**
