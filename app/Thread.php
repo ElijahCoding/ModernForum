@@ -91,11 +91,12 @@ class Thread extends Model
     {
         $reply = $this->replies()->create($reply);
 
-        $this->subscriptions
-             ->filter(function ($sub) use ($reply) {
-                 return $sub->user_id !== $reply->user_id;
-             })->each->notify($reply);
+        $this->notifySubscribers($reply);
 
+        // $this->subscriptions
+        //      ->filter(function ($sub) use ($reply) {
+        //          return $sub->user_id !== $reply->user_id;
+        //      })->each->notify($reply);
              // ->each(function ($sub) use ($reply) {
              //     $sub->user->notify(new ThreadWasUpdated($this, $reply));
              // });
@@ -108,6 +109,19 @@ class Thread extends Model
 
 
         return $reply;
+    }
+
+    /**
+     * Notify all thread subscribers about a new reply.
+     *
+     * @param \App\Reply $reply
+     */
+    public function notifySubscribers($reply)
+    {
+        $this->subscriptions
+            ->where('user_id', '!=', $reply->user_id)
+            ->each
+            ->notify($reply);
     }
 
     /**
@@ -145,5 +159,12 @@ class Thread extends Model
     public function getIsSubscribedToAttribute()
     {
         return $this->subscriptions()->where('user_id', auth()->id())->exists();
+    }
+
+    public function hasUpdatesFor()
+    {
+        $key = sprintf("users.%s.visits.%s", auth()->id(), $this->id);
+
+        return $this->updated_at > cache($key);
     }
 }
