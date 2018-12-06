@@ -161,7 +161,7 @@ class Thread extends Model
         return $this->subscriptions()->where('user_id', auth()->id())->exists();
     }
 
-    public function hasUpdatesFor()
+    public function hasUpdatesFor($user)
     {
         $key = sprintf("users.%s.visits.%s", auth()->id(), $this->id);
 
