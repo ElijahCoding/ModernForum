@@ -107,7 +107,7 @@ class ParticipateInThreadsTest extends TestCase
 
         $this->expectException(\Exception::class);
 
-        $this->post($thread->path() . '/replies/', $reply->toArray());
+        $this->post($thread->path() . '/replies', $reply->toArray());
 
     }
 }
