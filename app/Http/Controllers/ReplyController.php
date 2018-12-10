@@ -7,7 +7,7 @@ use App\Reply;
 use Exception;
 use App\Thread;
 use Illuminate\Http\Request;
-use App\Http\Forms\CreatePostForm;
+use App\Http\Requests\CreatePostRequest;
 
 class ReplyController extends Controller
 {
@@ -30,31 +30,14 @@ class ReplyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($channelId, Thread $thread, CreatePostForm $form)
-    {
-        // $this->authorize('create', new Reply);
-        if (Gate::denies('create', new Reply)) {
-            return response(
-                'You are posting too frequently', 422
-            );
-        }
+     public function store($channelId, Thread $thread, CreatePostRequest $form)
+     {
+         return $thread->addReply([
+             'body' => request('body'),
+             'user_id' => auth()->id()
+         ])->load('owner');
+     }
 
-
-        try {
-            // $this->validate(request(), ['body' => 'required|spamfree']);
-
-            $reply = $thread->addReply([
-                'body' => request('body'),
-                'user_id' => auth()->id()
-            ]);
-        } catch (Exception $e) {
-            return response(
-                'Sorry, your reply could not be saved at this time.', 422
-            );
-        }
-
-        return $reply->load('owner');
-    }
 
     /**
      * Update the given reply.
