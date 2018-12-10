@@ -3,7 +3,6 @@ use Illuminate\Notifications\DatabaseNotification;
 
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
-
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
@@ -53,7 +52,7 @@ $factory->define(DatabaseNotification::class, function ($faker) {
         'id' => \Ramsey\Uuid\Uuid::uuid4()->toString(),
 
         'type' => 'App\Notifications\ThreadWasUpdated',
-        
+
         'notifiable_id' => function () {
             return auth()->id() ?: factory('App\User')->create()->id;
         },
