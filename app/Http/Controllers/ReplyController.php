@@ -6,8 +6,8 @@ use Gate;
 use App\Reply;
 use Exception;
 use App\Thread;
-use App\Inspections\Spam;
 use Illuminate\Http\Request;
+use App\Http\Forms\CreatePostForm;
 
 class ReplyController extends Controller
 {
@@ -30,7 +30,7 @@ class ReplyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($channelId, Thread $thread, Spam $spam)
+    public function store($channelId, Thread $thread, CreatePostForm $form)
     {
         // $this->authorize('create', new Reply);
         if (Gate::denies('create', new Reply)) {
@@ -41,7 +41,7 @@ class ReplyController extends Controller
 
 
         try {
-            $this->validate(request(), ['body' => 'required|spamfree']);
+            // $this->validate(request(), ['body' => 'required|spamfree']);
 
             $reply = $thread->addReply([
                 'body' => request('body'),

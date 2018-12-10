@@ -26,6 +26,8 @@ class ReplyPolicy
     {
         $lastReply = $user->fresh()->lastReply;
 
+        // return ! $lastReply || ! $lastReply->wasJustPublished();
+
         if (! $lastReply) return true;
 
         return ! $lastReply->wasJustPublished();
