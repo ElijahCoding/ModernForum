@@ -95,6 +95,5 @@ class User extends Authenticatable
         } else {
             return env('APP_URL') . '/images/avatars/default.png';
         }
-        // return asset($avatar ?: 'images/avatars/default.png');
     }
 }
