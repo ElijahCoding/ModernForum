@@ -1,16 +1,21 @@
 <template>
     <div>
-        <h1 v-text="user.name"></h1>
+        <div class="level">
+            <img :src="avatar" width="50" height="50" class="mr-1">
+            
+            <h1 v-text="user.name"></h1>
+        </div>
 
         <form v-if="canUpdate" method="POST" enctype="multipart/form-data">
-            <input type="file" name="avatar" accept="image/*" @change="onChange" />
+            <image-upload name="avatar" class="mr-1" @loaded="onLoad"></image-upload>
         </form>
 
-        <img :src="avatar" width="50" height="50" />
     </div>
 </template>
 
 <script>
+    import ImageUpload from './ImageUpload'
+
     export default {
         props: ['user'],
 
@@ -20,21 +25,14 @@
             }
         },
 
+        components: {
+            ImageUpload
+        },
+
         methods: {
-            onChange (e) {
-                if (! e.target.files.length) return;
-
-                let avatar = e.target.files[0]
-
-                let reader = new FileReader()
-
-                reader.readAsDataURL(avatar)
-
-                reader.onload = e => {
-                    this.avatar = e.target.result
-                }
-
-                this.persist(avatar)
+            onLoad(avatar) {
+                this.avatar = avatar.src
+                this.persist(avatar.file)
             },
 
             persist (avatar) {
