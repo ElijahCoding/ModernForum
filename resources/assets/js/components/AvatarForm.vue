@@ -7,7 +7,6 @@
         </form>
 
         <img :src="avatar" width="50" height="50" />
-
     </div>
 </template>
 
@@ -17,7 +16,7 @@
 
         data () {
             return {
-                avatar: ''
+                avatar: this.user.avatar_path
             }
         },
 
