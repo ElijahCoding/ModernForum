@@ -16,7 +16,15 @@
                     </div>
 
                     <div class="panel-body">
-                        fda
+                        <ul class="list-group">
+                            @foreach ($trending as $thread)
+                                <li class="list-group-item">
+                                    <a href="{{ $thread->path }}">
+                                        {{ $thread->title }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
             </div>
