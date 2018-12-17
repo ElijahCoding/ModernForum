@@ -90,11 +90,6 @@ class ThreadController extends Controller
 
         $trending->push($thread);
 
-        // Redis::zincrby('trending_threads', 1, json_encode([
-        //     'title' => $thread->title,
-        //     'path' => $thread->path()
-        // ]));
-
         return view('threads.show', compact('thread'));
     }
 
