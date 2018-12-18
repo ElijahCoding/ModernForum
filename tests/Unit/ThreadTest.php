@@ -144,8 +144,10 @@ class ThreadTest extends TestCase
     function a_thread_records_each_visit()
     {
         $thread = make('App\Thread', ['id' => 1]);
-        
+
         $thread->resetVisits();
+
+        $this->assertSame(0, $thread->visits());
 
         $thread->recordVisit();
 
