@@ -9,7 +9,7 @@ use App\Events\ThreadReceivedNewReply;
 
 class Thread extends Model
 {
-    use RecordsActivity;
+    use RecordsActivity, RecordsVisits;
 
     /**
      * Don't auto-apply mass assignment protection.

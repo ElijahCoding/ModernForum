@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use Redis;
 use Tests\TestCase;
 use Carbon\Carbon;
 use App\Notifications\ThreadWasUpdated;
@@ -135,11 +136,23 @@ class ThreadTest extends TestCase
 
         tap(auth()->user(), function ($user) use ($thread) {
             $this->assertTrue($thread->hasUpdatesFor($user));
-
             $user->read($thread);
-            // cache()->forever($user->visitedThreadCacheKey($thread), Carbon::now());
-            //
-            // $this->assertFalse($thread->hasUpdatesFor());
         });
+    }
+
+    /** @test */
+    function a_thread_records_each_visit()
+    {
+        $thread = make('App\Thread', ['id' => 1]);
+        
+        $thread->resetVisits();
+
+        $thread->recordVisit();
+
+        $this->assertEquals(1, $thread->visits());
+
+        $thread->recordVisit();
+
+        $this->assertEquals(2, $thread->visits());
     }
 }
