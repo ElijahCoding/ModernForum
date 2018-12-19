@@ -9,7 +9,7 @@ use App\Events\ThreadReceivedNewReply;
 
 class Thread extends Model
 {
-    use RecordsActivity, RecordsVisits;
+    use RecordsActivity;
 
     /**
      * Don't auto-apply mass assignment protection.
@@ -139,5 +139,10 @@ class Thread extends Model
         $key = sprintf("users.%s.visits.%s", auth()->id(), $this->id);
 
         return $this->updated_at > cache($key);
+    }
+
+    public function visits()
+    {
+        return new Visits($this);
     }
 }
