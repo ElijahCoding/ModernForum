@@ -34,12 +34,12 @@ class Thread extends Model
     {
         parent::boot();
 
-        // static::addGlobalScope('replyCount', function ($builder) {
-        //     $builder->withCount('replies');
-        // });
-
         static::deleting(function ($thread) {
             $thread->replies->each->delete();
+        });
+
+        static::created(function ($thread) {
+            $thread->update(['slug' => $thread->title]);
         });
     }
 
@@ -146,8 +146,12 @@ class Thread extends Model
         return 'slug';
     }
 
-    // public function visits()
-    // {
-    //     return new Visits($this);
-    // }
+    public function setSlugAttribute($value)
+    {
+        if (static::whereSlug($slug = str_slug($value))->exists()) {
+            $slug = "{$slug}-{$this->id}";
+        }
+
+        $this->attributes['slug'] = $slug;
+    }
 }
