@@ -26,3 +26,5 @@ window.axios.defaults.headers.common = {
     'X-CSRF-TOKEN': window.App.csrfToken,
     'X-Requested-With': 'XMLHttpRequest'
 };
+
+window.events = new Vue();
