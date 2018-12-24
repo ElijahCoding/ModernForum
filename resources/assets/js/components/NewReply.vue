@@ -58,12 +58,6 @@
                          this.$emit('created', data)
                      })
             }
-        },
-
-        computed: {
-            signedIn () {
-                return window.App.signedIn
-            }
         }
     }
 </script>
