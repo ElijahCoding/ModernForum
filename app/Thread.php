@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Laravel\Scout\Searchable;
 use App\Filters\ThreadFilters;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -9,6 +10,8 @@ use App\Events\ThreadReceivedNewReply;
 
 class Thread extends Model
 {
+    use Searchable;
+    
     use RecordsActivity;
 
     /**
