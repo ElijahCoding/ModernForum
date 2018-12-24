@@ -93,4 +93,9 @@ class Reply extends Model
             $body
         );
     }
+
+    public function isBest()
+    {
+        return $this->thread->best_reply_id == $this->id;
+    }
 }
