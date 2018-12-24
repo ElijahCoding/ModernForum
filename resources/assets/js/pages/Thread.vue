@@ -8,16 +8,43 @@
         data () {
             return {
                 repliesCount: this.thread.replies_count,
-                locked: this.thread.locked
+                locked: this.thread.locked,
+                title: this.thread.title,
+                body: this.thread.body,
+                form: {},
+                editing: false
             }
+        },
+
+        created () {
+            this.resetForm();
         },
 
         methods: {
             toggleLock () {
-                axios[
-                    this.locked ? 'delete' : 'post'
-                ]('/locked-threads/' + this.thread.slug);
-                this.locked = ! this.locked;
+                let uri = `/locked-thread/${this.thread.slug}`
+
+                axios[this.locked ? 'delete' : 'post'](uri)
+
+                this.locked = ! this.locked
+            },
+
+            update () {
+                let uri = `/threads/${this.thread.channel.slug}/${this.thread.slug}`;
+
+                axios.patch(uri, this.form).then(() => {
+                    this.editing = false
+                    this.title = this.form.title
+                    this.body = this.form.body
+                })
+            },
+
+            resetForm () {
+                this.form = {
+                    title: this.thread.title,
+                    body: this.thread.body
+                };
+                this.editing = false;
             }
         },
 

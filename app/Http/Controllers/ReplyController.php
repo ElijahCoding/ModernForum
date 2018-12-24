@@ -48,11 +48,11 @@ class ReplyController extends Controller
      * @param  Reply $reply
      * @return \Illuminate\Http\RedirectResponse
      */
-     public function update(Reply $reply, Request $request)
+     public function update(Reply $reply)
      {
          $this->authorize('update', $reply);
 
-         $this->validate(request(), ['body' => 'required|spamfree']);
+         request()->validate(['body' => 'required|spamfree']);
 
          $reply->update(request(['body']));
      }
