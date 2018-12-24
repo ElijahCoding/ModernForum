@@ -59,6 +59,7 @@ class ThreadController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         $this->validate($request, [
             'title' => 'required|spamfree',
             'body' => 'required|spamfree',
@@ -75,7 +76,7 @@ class ThreadController extends Controller
         if (request()->wantsJson()) {
             return response($thread, 201);
         }
-        
+
         return redirect($thread->path());
     }
 
