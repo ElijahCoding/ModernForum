@@ -27851,11 +27851,24 @@ var app = new Vue({
 /* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
+
 window._ = __webpack_require__(139);
+
+/**
+ * We'll load jQuery and the Bootstrap jQuery plugin which provides support
+ * for JavaScript based Bootstrap features such as modals and tabs. This
+ * code may be modified to fit the specific needs of your application.
+ */
 
 window.$ = window.jQuery = __webpack_require__(4);
 
 __webpack_require__(140);
+
+/**
+ * Vue is a modern JavaScript library for building interactive web interfaces
+ * using reactive data binding and reusable components. Vue's API is clean
+ * and simple, leaving you to focus on building your next great project.
+ */
 
 window.Vue = __webpack_require__(141);
 
@@ -27877,6 +27890,12 @@ Vue.prototype.authorize = function () {
 
 Vue.prototype.signedIn = window.App.signedIn;
 
+/**
+ * We'll load the axios HTTP library which allows us to easily issue requests
+ * to our Laravel back-end. This library automatically handles sending the
+ * CSRF token as a header based on the value of the "XSRF" token cookie.
+ */
+
 window.axios = __webpack_require__(144);
 
 window.axios.defaults.headers.common = {
@@ -27885,6 +27904,12 @@ window.axios.defaults.headers.common = {
 };
 
 window.events = new Vue();
+
+window.flash = function (message) {
+    var level = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'success';
+
+    window.events.$emit('flash', { message: message, level: level });
+};
 
 /***/ }),
 /* 139 */
@@ -59711,11 +59736,11 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Reply__ = __webpack_require__(166);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Reply___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Reply__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NewReply__ = __webpack_require__(173);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NewReply___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__NewReply__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_Collection__ = __webpack_require__(178);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Reply_vue__ = __webpack_require__(166);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Reply_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Reply_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NewReply_vue__ = __webpack_require__(173);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NewReply_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__NewReply_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_collection__ = __webpack_require__(207);
 //
 //
 //
@@ -59734,17 +59759,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    components: { Reply: __WEBPACK_IMPORTED_MODULE_0__Reply_vue___default.a, NewReply: __WEBPACK_IMPORTED_MODULE_1__NewReply_vue___default.a },
 
-    components: {
-        Reply: __WEBPACK_IMPORTED_MODULE_0__Reply___default.a, NewReply: __WEBPACK_IMPORTED_MODULE_1__NewReply___default.a
-    },
-
-    mixins: [__WEBPACK_IMPORTED_MODULE_2__mixins_Collection__["a" /* default */]],
+    mixins: [__WEBPACK_IMPORTED_MODULE_2__mixins_collection__["a" /* default */]],
 
     data: function data() {
-        return {
-            dataSet: false
-        };
+        return { dataSet: false };
     },
     created: function created() {
         this.fetch();
@@ -59761,6 +59781,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 page = query ? query[1] : 1;
             }
+
             return location.pathname + '/replies?page=' + page;
         },
         refresh: function refresh(_ref) {
@@ -59827,12 +59848,10 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Favorite_vue__ = __webpack_require__(168);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Favorite_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Favorite_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Favorite__ = __webpack_require__(168);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Favorite___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Favorite__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
-//
-//
 //
 //
 //
@@ -59880,8 +59899,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['data'],
 
-    components: { Favorite: __WEBPACK_IMPORTED_MODULE_0__Favorite_vue___default.a },
-
     data: function data() {
         return {
             editing: false,
@@ -59893,9 +59910,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
 
+    components: {
+        Favorite: __WEBPACK_IMPORTED_MODULE_0__Favorite___default.a
+    },
+
     computed: {
         ago: function ago() {
-            return __WEBPACK_IMPORTED_MODULE_1_moment___default()(this.data.created_at).fromNow() + '...';
+            return __WEBPACK_IMPORTED_MODULE_1_moment___default()(this.data.created_at).fromNow();
         }
     },
 
@@ -59913,12 +59934,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.patch('/replies/' + this.data.id, {
                 body: this.body
             });
-
             this.editing = false;
         },
         destroy: function destroy() {
             axios.delete('/replies/' + this.data.id);
-
             this.$emit('deleted', this.data.id);
         },
         markBestReply: function markBestReply() {
@@ -60453,7 +60472,7 @@ var render = function() {
             staticClass: "btn btn-xs btn-default ml-a",
             on: { click: _vm.markBestReply }
           },
-          [_vm._v("Best Reply?")]
+          [_vm._v("Best Reply")]
         )
       ])
     ]
@@ -62326,33 +62345,7 @@ if (false) {
 }
 
 /***/ }),
-/* 178 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({
-    data: function data() {
-        return {
-            items: []
-        };
-    },
-
-
-    methods: {
-        add: function add(item) {
-            this.items.push(item);
-
-            this.$emit('added');
-        },
-        remove: function remove(index) {
-            this.items.splice(index, 1);
-
-            this.$emit('removed');
-        }
-    }
-});
-
-/***/ }),
+/* 178 */,
 /* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -62366,9 +62359,9 @@ var render = function() {
       _vm._l(_vm.items, function(reply, index) {
         return _c(
           "div",
+          { key: reply.id },
           [
             _c("reply", {
-              key: reply.id,
               attrs: { data: reply },
               on: {
                 deleted: function($event) {
@@ -63126,6 +63119,33 @@ module.exports = {
         return reply.user_id === user.id;
     }
 };
+
+/***/ }),
+/* 207 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    data: function data() {
+        return {
+            items: []
+        };
+    },
+
+
+    methods: {
+        add: function add(item) {
+            this.items.push(item);
+
+            this.$emit('added');
+        },
+        remove: function remove(index) {
+            this.items.splice(index, 1);
+
+            this.$emit('removed');
+        }
+    }
+});
 
 /***/ })
 /******/ ]);
