@@ -66,7 +66,7 @@ class ThreadController extends Controller
             'channel_id' => 'required|exists:channels,id'
         ]);
 
-        $response = Zttp::post('https://www.google.com/recaptcha/api/siteverify', [
+        $response = Zttp::asFormParams()->post('https://www.google.com/recaptcha/api/siteverify', [
                         'secret' => config('services.recaptcha.secret'),
                         'response' => $request->input('g-recaptcha-response'),
                         'remoteip' => request()->ip()
