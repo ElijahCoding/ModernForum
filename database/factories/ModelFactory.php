@@ -14,7 +14,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 $factory->state(App\User::class, 'administrator', function () {
     return [
-        'name' => 'JohnDoe'
+        'name' => 'Elijah'
     ];
 });
 
