@@ -10,6 +10,11 @@ class CreateThreadsTest extends TestCase
 {
     use DatabaseMigrations;
 
+    public function setUp()
+    {
+        parent::setUp();
+    }
+
     /** @test */
     function guests_may_not_create_threads()
     {
@@ -74,6 +79,13 @@ class CreateThreadsTest extends TestCase
 
         $this->publishThread(['channel_id' => 999])
             ->assertSessionHasErrors('channel_id');
+    }
+
+    /** @test */
+    function a_thread_requires_recaptcha_verification()
+    {
+        $this->publishThread(['g-recaptcha-response' => 'test'])
+             ->assertSessionHasErrors('g-recaptcha-response');
     }
 
     /** @test */
