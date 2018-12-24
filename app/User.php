@@ -33,6 +33,11 @@ class User extends Authenticatable
         'confirmed' => 'boolean'
     ];
 
+    public function isAdmin()
+    {
+        return in_array($this->name, ['JohnDoe', 'JaneDoe']);
+    }
+
     /**
      * Get the route key name for Laravel.
      *
@@ -86,7 +91,7 @@ class User extends Authenticatable
      {
          $this->confirmed = true;
          $this->confirmation_token = null;
-         
+
          $this->save();
      }
     /**
